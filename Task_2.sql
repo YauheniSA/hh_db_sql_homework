@@ -45,7 +45,7 @@ FROM test_data;
 
 WITH test_data (
                 vacancy_id, employer_id, specialization_id, created_at, title, compensation_from, experience_from,
-                employment_type
+                employment_type, compensation_gross
     ) AS (
     SELECT generate_series(1, 10000) AS vacancy_id,
            random() * ((SELECT count(*) AS count FROM employer) - 1) + 1 AS employer_id,
@@ -55,14 +55,15 @@ WITH test_data (
            md5(random()::TEXT) AS position_name,
            round((random() * 100000)::INTEGER, -3) AS compensation_from,
            round((random() * 10)::INTEGER, 0) AS experience_from,
-           random() * ((SELECT count(*) FROM employment_type) - 1) + 1 AS employment_type
+           random() * ((SELECT count(*) FROM employment_type) - 1) + 1 AS employment_type,
+           (round(random())::int)::boolean AS compensation_gross
 )
 INSERT INTO vacancy (
     vacancy_id, employer_id, specialization_id, created_at, title, compensation_from,
-    compensation_to, experience_from, experience_to, employment_type
+    compensation_to, experience_from, experience_to, employment_type, compensation_gross
 )
 SELECT vacancy_id, employer_id, specialization_id, created_at, title, compensation_from, compensation_from + 55555,
-       experience_from, experience_from + 5, employment_type
+       experience_from, experience_from + 5, employment_type, compensation_gross
 FROM test_data;
 
 WITH test_data (resume_id, person_id, specialization_id, gender, birth_date, created_at, citizenship, education) AS (

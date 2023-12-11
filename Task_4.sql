@@ -1,5 +1,5 @@
 WITH vacancy_counter AS (
-    SELECT EXTRACT(MONTH FROM v.created_at) as month,
+    SELECT TO_CHAR(v.created_at, 'MON YYYY') as month,
            COUNT(*) AS count_vacancies
     FROM vacancy v
     GROUP BY month
@@ -7,7 +7,7 @@ WITH vacancy_counter AS (
     LIMIT 1
 ),
      resume_counter AS (
-         SELECT EXTRACT(MONTH FROM r.created_at) as month,
+         SELECT TO_CHAR(r.created_at, 'MON YYYY') as month,
                 COUNT(*) AS count_resume
          FROM resume r
          GROUP BY month

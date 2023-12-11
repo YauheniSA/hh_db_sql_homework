@@ -41,6 +41,7 @@ CREATE TABLE vacancy (
                          title TEXT NOT NULL,
                          compensation_from INTEGER,
                          compensation_to INTEGER,
+                         compensation_gross BOOLEAN,
                          experience_from INTEGER,
                          experience_to INTEGER,
                          employment_type INTEGER NOT NULL REFERENCES  employment_type (employment_type_id)
